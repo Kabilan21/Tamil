@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil Literature</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+
+<body class="container">
+    <center style="padding: 20px 0px;">
+        <h3>Welcome to Tamil Literature</h3>
+    </center>
+
+    <div class="container">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Paste the url here" id="url">
+        </div>
+
+        <button id="button" onclick="getResults()" class="btn btn-primary"
+            style="float: right;margin-top: 10px;">Add</button>
+        <div id="result" style="margin: 10px 0px;">
+
+        </div>
+    </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
+<script>
+
+    function getResults() {
+        var url = document.getElementById('url');
+        var button = document.getElementById('button');
+        button.innerHTML = "Adding";
+        var result = document.getElementById('result');
+        $.ajax({
+            url: "{% url 'home' %}",
+            method: "POST",
+            data: { 'url': url.value, 'csrfmiddlewaretoken': "{{csrf_token}}", },
+            success: function (data) {
+                result.innerHTML = data['html'];
+                button.innerHTML = "Add";
+            }
+        });
+    }
+
+</script>
+
+</html>
